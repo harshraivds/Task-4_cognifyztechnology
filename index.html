@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form Validation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="password"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #password-strength {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        button[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                max-width: 100%;
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="myForm">
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+            <br>
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" required>
+            <br>
+            <div id="password-strength">Password strength: Weak</div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('myForm');
+        const passwordInput = document.getElementById('password');
+        const confirmPasswordInput = document.getElementById('confirm-password');
+        const strengthIndicator = document.getElementById('password-strength');
+
+        // Add event listener for form submission
+        form.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            // Validate password strength
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long.');
+            } else if (!/[A-Z]/.test(password)) {
+                alert('Password must contain at least one uppercase letter.');
+            } else if (!/[0-9]/.test(password)) {
+                alert('Password must contain at least one number.');
+            } else if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+            } else {
+                alert('Form submitted successfully.');
+                form.reset(); // Clear form after submission
+            }
+        });
+
+        // Add event listener for password input
+        passwordInput.addEventListener('input', function () {
+            const password = this.value;
+
+            // Update password strength indicator
+            if (password.length < 8) {
+                strengthIndicator.textContent = 'Password strength: Weak';
+            } else if (!/[A-Z]/.test(password)) {
+                strengthIndicator.textContent = 'Password strength: Medium';
+            } else if (!/[0-9]/.test(password)) {
+                strengthIndicator.textContent = 'Password strength: Strong';
+            } else {
+                strengthIndicator.textContent = 'Password strength: Very Strong';
+            }
+        });
+    </script>
+</body>
+</html>
